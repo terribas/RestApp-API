@@ -30,10 +30,11 @@ export const signIn = async (req, res) => {
     if (!rightPassword) return res.status(401).json({message: "Password doesn't match"});
 
 
+    
     const token = jwt.sign({id: user._id}, config.SECRET, {
         expiresIn: 86400
     });
 
 
-    res.json({token});
+    res.json({token, isWaiter: user.isWaiter});
 }

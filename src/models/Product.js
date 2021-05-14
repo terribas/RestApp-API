@@ -12,7 +12,7 @@ const productSchema = new Schema({
         ref: 'Category'
     }
 }, {
-    versionKey: false,
+    versionKey: false,      // Creation date not saved
     toJSON: {
         getters: true       // Float output handling and id fields
     }
