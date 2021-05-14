@@ -5,7 +5,11 @@ import * as tableController from '../controllers/tables.controller';
 
 import * as checkAuth from '../middlewares/authJwt';
 
-router.get('/', checkAuth.verifyWaiterToken, tableController.getTables);
+
+// Para controlar que la peticion se haga solamente con usuario tipo camarero autenticado, es:
+//router.get('/', checkAuth.verifyWaiterToken, tableController.getTables);
+
+router.get('/', tableController.getTables);
 router.get('/:tableId', tableController.getTableById);
 
 router.post('/', tableController.createTable);
