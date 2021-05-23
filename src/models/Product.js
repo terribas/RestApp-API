@@ -10,6 +10,10 @@ const productSchema = new Schema({
     category: {
         type: Types.ObjectId,
         ref: 'Category'
+    },
+    zone: {
+        type: Number,
+        default: 2
     }
 }, {
     versionKey: false,      // Creation date not saved
