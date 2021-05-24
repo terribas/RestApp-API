@@ -28,7 +28,7 @@ import Product from '../models/Product';
 
 export const getProducts = async (req, res) => {
     try {
-        const products = await Product.find().populate('category');
+        const products = await Product.find().sort('name').populate('category');
 
         res.status(201).json(products);
     } catch (error) {

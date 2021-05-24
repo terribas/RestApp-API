@@ -12,6 +12,8 @@ import * as checkAuth from '../middlewares/authJwt';
 router.get('/', tableController.getTables);
 router.get('/:tableId', tableController.getTableById);
 
+router.post('/turn/:tableId', tableController.turnTableStatus);
+
 router.post('/', tableController.createTable);
 router.put('/:tableId', tableController.updateTableById);
 
