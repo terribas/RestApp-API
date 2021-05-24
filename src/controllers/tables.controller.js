@@ -20,7 +20,7 @@ export const getTableById = async (req, res) => {
     }
 }
 
-
+//client need waiter
 export const turnTableStatus = async (req, res) => {
     try {
         const foundTable = await Table.findById(req.params.tableId);
