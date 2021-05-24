@@ -1,4 +1,4 @@
-const createPaymentMethod = async (req, res) => {
+export const createPaymentMethod = async (req, res) => {
     const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
     console.log("createPaymentMethod")
     
@@ -38,7 +38,7 @@ const createPaymentMethod = async (req, res) => {
   };
   
 
-  const pay = async (request, response) => {
+  export const pay = async (request, response) => {
     const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
     try {
       // Create the PaymentIntent
@@ -94,8 +94,7 @@ const createPaymentMethod = async (req, res) => {
       return response.status(500).json({error: 'Unexpected status ' + intent.status});
     }
   }
-  export default app;
-  
+
   
   
   
