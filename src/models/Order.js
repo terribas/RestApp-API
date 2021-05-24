@@ -25,6 +25,8 @@ const orderSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    bar_delivered_date: Date,
+    kitchen_delivered_date: Date,
     //insert products, amount field by product and clientEmail
     products: []
 }, {

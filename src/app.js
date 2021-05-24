@@ -36,6 +36,7 @@ export default app;
 
 - validación formularios (email es válido?)
 - pedidos favoritos
+- contador minutos pedidos hasta que sean despachados (solo mostrados en ordenes por hacer) Hacer en cliente con JS
 
 */
 
