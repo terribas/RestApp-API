@@ -2,6 +2,7 @@ import {Schema, Types, model} from 'mongoose';
 
 const productSchema = new Schema({
     name: String,
+    description: String,
     price: {
         type: Types.Decimal128,
         get: getFloat

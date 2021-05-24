@@ -3,8 +3,8 @@ import Table from '../models/Table';
 
 export const getTables = async (req, res) => {
     try {
-        const tables = await Table.find();
-        res.json(tables);
+        const tables = await Table.find().sort('table_number');
+        res.status(201).json(tables);
     } catch (error) {
         res.status(400).json({message: "An error occured"});
     }
@@ -17,6 +17,21 @@ export const getTableById = async (req, res) => {
         res.status(201).json(table);
     } catch (error) {
         res.status(400).json({message: "An error occured"});
+    }
+}
+
+
+export const turnTableStatus = async (req, res) => {
+    try {
+        const foundTable = await Table.findById(req.params.tableId);
+
+        const updatedTable = await Table.findByIdAndUpdate(req.params.tableId, {
+            need_waiter: !foundTable.need_waiter
+        }, {new: true});
+
+        res.status(200).json(updatedTable);
+    } catch (error) {
+        res.status(400).json({message: "An error occured"})
     }
 }
 
