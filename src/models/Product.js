@@ -7,7 +7,10 @@ const productSchema = new Schema({
         type: Types.Decimal128,
         get: getFloat
     },
-    image_url: String,
+    image_url: {
+        type: String,
+        get: getImagePath
+    },
     category: {
         type: Types.ObjectId,
         ref: 'Category'
@@ -28,6 +31,10 @@ function getFloat(value) {
         return parseFloat(value.toString());
     }
     return value;
+}
+
+function getImagePath(value) {
+    return 'http://localhost:3000/public/uploads/' + value;
 }
 
 export default model('Product', productSchema);
