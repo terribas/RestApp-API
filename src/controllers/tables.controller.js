@@ -1,4 +1,5 @@
 import Table from '../models/Table';
+import Order from '../models/Order';
 
 
 export const getTables = async (req, res) => {
@@ -73,5 +74,16 @@ export const deleteTableById = async (req, res) => {
     } catch (error) {
         res.status(400).json({message: "An error occured"});
     }
-    
+}
+
+
+
+export const getTableRecentOrders = async (req, res) => {
+    try {
+        const tableId = req.params.tableId;
+        const recentOrders = await Order.find({table: tableId}).sort({'date': 'desc'}).limit(15).populate('user');
+        res.status(201).json(recentOrders);
+    } catch (error) {
+        res.status(400).json({ message: "An error occured" });
+    }
 }

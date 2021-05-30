@@ -21,26 +21,46 @@ import * as paginationController from "./pagination.controller";
     }
 */
 
+
+
+
+// {
+//    "where" : {
+//       "field": "category",
+//       "value": "Bebidas"
+//    },
+//
+//    "contains": "coc",
+//
+//    "sort": {
+//        "field": "name",
+//        "order": "asc"
+//    }
+// }
+
+
 export const getProducts = async (req, res) => {
-
-    // {
-    //     "filter" : {
-    //       "field": "name"
-    //       "sort": "asc"
-    //       "contains": "bebida"
-    //     }
-    //   }
-
-
-    let page = req.query.page
-    let filter = req.body.filter
     try {
+        const page = req.query.page;
         if (page) {
-            paginationController.pagination(page, res, Product, filter,Product.find(filter).sort("name").populate("category"))
+            const {where, contains, sort} = req.body;
+
+            const filter = {
+                $or: [
+                    {name: {$regex: new RegExp(contains, 'i')}},
+                    {category: {$regex: new RegExp(contains, 'i')}},
+                ]
+            }
+            const sortQuery = {}
+
+            if (where.field && where.value) {filter[where.field] = where.value}
+            if (sort.field && sort.order) {sortQuery[sort.field] = sort.order}
+
+            console.log('El filtro es ' + JSON.stringify(filter));
+            paginationController.pagination({page, res, model: Product, filter, promise: Product.find(filter).sort(sortQuery)})
 
         } else {
-            const products = await Product.find().populate('category').sort('name')
-            //const productsFilter = products.filter((product) => (product.category.name === "Bebidas"))
+            const products = await Product.find().sort('name')
             res.status(201).json(products);
         }
 

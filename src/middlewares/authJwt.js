@@ -6,14 +6,15 @@ import User from '../models/User';
 export const verifyToken = async (req, res, next) => {
     try {
         const token = req.headers['x-access-token'];
-
         if (!token) return res.status(403).json({message: 'No token provided'});
 
         const decoded = jwt.verify(token, config.SECRET);
-    
         const user = await User.findById(decoded.id, {password: 0});
-        if (!user) return res.status(403).json({message: 'User not found'});
 
+        if (!user) return res.status(403).json({message: 'Authentiation failed'});
+
+        console.log('user middleware ' + user);
+        req.body.user = user;
         next();
     } catch (error) {
         return res.status(401).json({message: 'Authentication failed'});
@@ -25,16 +26,72 @@ export const verifyToken = async (req, res, next) => {
 export const verifyWaiterToken = async (req, res, next) => {
     try {
         const token = req.headers['x-access-token'];
-
         if (!token) return res.status(403).json({message: 'No token provided'});
 
         const decoded = jwt.verify(token, config.SECRET);
-    
         const user = await User.findById(decoded.id, {password: 0});
-        if (!user) return res.status(403).json({message: 'User not found'});
 
-        if (!user.isWaiter) return res.status(401).json({message: 'Unauthorized: You are not a waiter'}); 
+        if (!user) return res.status(403).json({message: 'Authentication failed'});
+        if (user.role !== 'waiter') return res.status(401).json({message: 'Unauthorized'}); 
 
+        req.body.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({message: 'Authentication failed'});
+    }
+}
+
+
+export const verifyAdminToken = async (req, res, next) => {
+    try {
+        const token = req.headers['x-access-token'];
+        if (!token) return res.status(403).json({message: 'No token provided'});
+
+        const decoded = jwt.verify(token, config.SECRET);
+        const user = await User.findById(decoded.id, {password: 0});
+
+        if (!user) return res.status(403).json({message: 'Authentication failed'});
+        if (user.role !== 'admin') return res.status(401).json({message: 'Unauthorized'}); 
+
+        req.body.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({message: 'Authentication failed'});
+    }
+}
+
+
+export const verifyKitchenToken = async (req, res, next) => {
+    try {
+        const token = req.headers['x-access-token'];
+        if (!token) return res.status(403).json({message: 'No token provided'});
+
+        const decoded = jwt.verify(token, config.SECRET);
+        const user = await User.findById(decoded.id, {password: 0});
+
+        if (!user) return res.status(403).json({message: 'Authentication failed'});
+        if (user.role !== 'kitchen') return res.status(401).json({message: 'Unauthorized'}); 
+
+        req.body.user = user;
+        next();
+    } catch (error) {
+        return res.status(401).json({message: 'Authentication failed'});
+    }
+}
+
+
+export const verifyBarToken = async (req, res, next) => {
+    try {
+        const token = req.headers['x-access-token'];
+        if (!token) return res.status(403).json({message: 'No token provided'});
+
+        const decoded = jwt.verify(token, config.SECRET);
+        const user = await User.findById(decoded.id, {password: 0});
+
+        if (!user) return res.status(403).json({message: 'Authentication failed'});
+        if (user.role !== 'bar') return res.status(401).json({message: 'Unauthorized'}); 
+
+        req.body.user = user;
         next();
     } catch (error) {
         return res.status(401).json({message: 'Authentication failed'});

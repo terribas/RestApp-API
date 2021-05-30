@@ -12,8 +12,8 @@ const productSchema = new Schema({
         get: getImagePath
     },
     category: {
-        type: Types.ObjectId,
-        ref: 'Category'
+        type: String,
+        default: 'Sin categoría'
     },
     zone: {
         type: Number,
@@ -26,6 +26,8 @@ const productSchema = new Schema({
     }
 });
 
+//productSchema.index({name: 'text', category: 'text'});
+
 function getFloat(value) {
     if (typeof value !== 'undefined') {
         return parseFloat(value.toString());
@@ -34,7 +36,8 @@ function getFloat(value) {
 }
 
 function getImagePath(value) {
-    return 'http://localhost:3000/public/uploads/' + value;
+    //return 'http://localhost:3000/public/uploads/' + value;
+    return value;
 }
 
 export default model('Product', productSchema);
