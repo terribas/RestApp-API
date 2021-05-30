@@ -1,28 +1,6 @@
 import Product from '../models/Product';
 
 import * as paginationController from "./pagination.controller";
-/*
-    Para hacer Create, necesita el formato normal
-    {
-        "name": "Patatas bravas",
-        "price": 5.5,
-        "category": "iddelacategoria"
-    }
-
-    Para hacer GET, la salida sale expandida, en este caso la categoría:
-    {
-        "id": "elid"
-        "name": "Patatas bravas"
-        "price": 5.5,
-        "category": {
-            "id": "iddelacategoria"
-            "name": "Platos"
-        }
-    }
-*/
-
-
-
 
 // {
 //    "where" : {
@@ -53,8 +31,8 @@ export const getProducts = async (req, res) => {
             }
             const sortQuery = {}
 
-            if (where.field && where.value) {filter[where.field] = where.value}
-            if (sort.field && sort.order) {sortQuery[sort.field] = sort.order}
+            if (where?.field && where?.value) {filter[where.field] = where.value}
+            if (sort?.field && sort?.order) {sortQuery[sort.field] = sort.order}
 
             console.log('El filtro es ' + JSON.stringify(filter));
             paginationController.pagination({page, res, model: Product, filter, promise: Product.find(filter).sort(sortQuery)})
@@ -100,7 +78,7 @@ export const updateProductById = async (req, res) => {
             new: true
         });
 
-        res.status(204).json(updatedProduct);
+        res.status(201).json(updatedProduct);
     } catch (error) {
         res.status(400).json({ message: "An error occured" });
     }
