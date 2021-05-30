@@ -1,3 +1,4 @@
+
 import { json } from 'body-parser';
 import userController from '../controllers/user.controller'
 import User from '../models/User';
@@ -36,7 +37,6 @@ export const createPaymentMethod = async (req, res) => {
   }
 };
   
-
 export const pay = async (request, response) => {
   const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
   try {
@@ -52,6 +52,7 @@ export const pay = async (request, response) => {
         confirmation_method: 'manual',
         use_stripe_sdk: true,
       });
+
   
     } else if (request.body.payment_intent_id){
       intent = await stripe.paymentIntents.confirm(
@@ -213,13 +214,14 @@ function generateResponse(response, intent) {
     // Any other status would be unexpected, so error
     return response.status(500).json({error: 'Unexpected status ' + intent.status});
   }
+
 }
 
 
 
   
   
-  
+
   
   
   

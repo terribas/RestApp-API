@@ -9,7 +9,6 @@ const staticsSchema = new Schema({
         type: Types.Decimal128,
         get: getFloat
     },
-    image_url: String,
     category: Object,
     zone: Number,
     amount: Number,

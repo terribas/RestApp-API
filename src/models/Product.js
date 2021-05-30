@@ -2,14 +2,18 @@ import {Schema, Types, model} from 'mongoose';
 
 const productSchema = new Schema({
     name: String,
+    description: String,
     price: {
         type: Types.Decimal128,
         get: getFloat
     },
-    image_url: String,
+    image_url: {
+        type: String,
+        get: getImagePath
+    },
     category: {
-        type: Types.ObjectId,
-        ref: 'Category'
+        type: String,
+        default: 'Sin categoría'
     },
     zone: {
         type: Number,
@@ -22,10 +26,17 @@ const productSchema = new Schema({
     }
 });
 
+//productSchema.index({name: 'text', category: 'text'});
+
 function getFloat(value) {
     if (typeof value !== 'undefined') {
         return parseFloat(value.toString());
     }
+    return value;
+}
+
+function getImagePath(value) {
+    //return 'http://localhost:3000/public/uploads/' + value;
     return value;
 }
 

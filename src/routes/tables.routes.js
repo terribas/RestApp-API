@@ -11,6 +11,11 @@ import * as checkAuth from '../middlewares/authJwt';
 
 router.get('/', tableController.getTables);
 router.get('/:tableId', tableController.getTableById);
+router.get('/lastorders/:tableId', tableController.getTableRecentOrders);
+
+
+//client need waiter
+router.post('/turn/:tableId', tableController.turnTableStatus);
 
 router.post('/', tableController.createTable);
 router.put('/:tableId', tableController.updateTableById);
