@@ -81,12 +81,9 @@ export const updateProductById = async (req, res) => {
             new: true
         });
 
-<<<<<<< Updated upstream
         res.status(201).json(updatedProduct);
-=======
         return paginationController.pagination({page, res, model: Product, promise: Product.find()});
         
->>>>>>> Stashed changes
     } catch (error) {
         res.status(400).json({ message: "An error occured" });
     }
