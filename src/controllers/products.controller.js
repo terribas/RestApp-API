@@ -3,6 +3,7 @@ import Product from '../models/Product';
 import * as paginationController from "./pagination.controller";
 
 // {
+//    "page": 2,
 //    "where" : {
 //       "field": "category",
 //       "value": "Bebidas"
@@ -19,7 +20,7 @@ import * as paginationController from "./pagination.controller";
 
 export const getProducts = async (req, res) => {
     try {
-        const page = req.query.page;
+        const page = req.body.page;
         if (page) {
             const {where, contains, sort} = req.body;
 
