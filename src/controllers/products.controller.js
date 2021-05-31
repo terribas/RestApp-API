@@ -81,7 +81,7 @@ export const updateProductById = async (req, res) => {
             new: true
         });
 
-        res.status(201).json(updatedProduct);
+        //res.status(201).json(updatedProduct);
         return paginationController.pagination({page, res, model: Product, promise: Product.find()});
         
     } catch (error) {
