@@ -20,6 +20,10 @@ const userSchema = new Schema({
     role: {
         type: String,
         default: "client"
+    },
+    stripe_key: {
+        type: String,
+        default: ""
     }
 }, {
     timestamps: true,

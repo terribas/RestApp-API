@@ -71,14 +71,22 @@ export const createProduct = async (req, res) => {
     }
 }
 
+
+
 export const updateProductById = async (req, res) => {
+    const page = req.query.page ?? 1;
     try {
         console.log(req.body);
         const updatedProduct = await Product.findByIdAndUpdate(req.params.productId, req.body, {
             new: true
         });
 
+<<<<<<< Updated upstream
         res.status(201).json(updatedProduct);
+=======
+        return paginationController.pagination({page, res, model: Product, promise: Product.find()});
+        
+>>>>>>> Stashed changes
     } catch (error) {
         res.status(400).json({ message: "An error occured" });
     }

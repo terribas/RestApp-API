@@ -81,7 +81,7 @@ export const deleteTableById = async (req, res) => {
 export const getTableRecentOrders = async (req, res) => {
     try {
         const tableId = req.params.tableId;
-        const recentOrders = await Order.find({table: tableId}).sort({'date': 'desc'}).limit(15).populate('user');
+        const recentOrders = await Order.find({table: tableId}).sort({'date': 'desc'}).limit(20).populate('user');
         res.status(201).json(recentOrders);
     } catch (error) {
         res.status(400).json({ message: "An error occured" });
