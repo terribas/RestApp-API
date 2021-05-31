@@ -10,10 +10,10 @@ import * as checkAuth from '../middlewares/authJwt';
 
 router.get('/', userController.getUsers);
 router.get('/:userId', userController.getUserById);
-router.get('/myUser', checkAuth.verifyToken, userController.getMyUser);
+router.post('/myUser', checkAuth.verifyToken, userController.getMyUser);
 
 router.put('/:userId', userController.updateUserById);
-router.put('/updateMyUser', checkAuth.verifyToken, userController.updateMyUser);
+router.put('/', checkAuth.verifyToken, userController.updateMyUser);
 
 router.delete('/:userId', userController.deleteUserById);
 
