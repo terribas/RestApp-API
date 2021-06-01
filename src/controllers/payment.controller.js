@@ -160,8 +160,13 @@ export const getCard = async (request, response) => {
 export const payWithCard = async (request, response) =>{
   const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS");
   try{
+    console.log("pay with card")
+    const id = request.body.user._id
+    console.log(id)
+    const user = await User.findById(id);
+    const customerId = user.stripe_key
     const paymentMethodiD = request.body.paymentMethodiD
-    const customerId = request.body.customerId
+    
     console.log(paymentMethodiD)
     console.log(customerId)
     let intent;
@@ -196,13 +201,15 @@ export const deleteCard = async (request, response) => {
       }, {
         new : true
       })
+      console.log("asddddf")
+      return response.status(200).json({borrado:true})
     } else{
-      return response.status(500) 
+      return response.status(500).json({borrado:false}) 
     }
     
-    return response.status(200)
+    return response.status(200).json({borrado:true})
   } catch(error){
-    return response.status(500)
+    return response.status(500).json({borrado:false, error:error})
   }
 }
 
