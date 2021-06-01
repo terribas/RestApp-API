@@ -100,6 +100,8 @@ export const updateUserById = async (req, res) => {
         const newParams = req.body;
         if (req.body.password?.length > 0) {
             newParams.password = await User.encryptPassword(req.body.password)
+        } else {
+            delete newParams.password;
         }
 
         const updatedUser = await User.findByIdAndUpdate(req.params.userId, newParams, {
