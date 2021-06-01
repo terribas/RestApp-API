@@ -12,6 +12,7 @@ import * as checkAuth from '../middlewares/authJwt';
 router.get('/:userId', userController.getUserById);
 
 router.post('/', userController.getUsers)
+router.post('/staff', userController.getStaff)
 router.post('/myUser', checkAuth.verifyToken, userController.getMyUser);
 
 router.put('/:userId', userController.updateUserById);

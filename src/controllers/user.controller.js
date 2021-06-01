@@ -50,6 +50,41 @@ export const getUsers = async (req, res) => {
 
 
 
+export const getStaff = async (req, res) => {
+    try {
+        const page = req.body.page;
+        if (page) {
+            const {where, contains, sort} = req.body;
+
+            const filter = {
+                $or: [
+                    {name: {$regex: new RegExp(contains, 'i')}},
+                    {lastName: {$regex: new RegExp(contains, 'i')}},
+                    {email: {$regex: new RegExp(contains, 'i')}},
+                ],
+                role: {$ne: 'client'}
+            }
+            const sortQuery = {}
+
+            if (where?.field && where?.value) {filter[where.field] = where.value}
+            if (sort?.field && sort?.order) {sortQuery[sort.field] = sort.order}
+
+            console.log('El filtro es ' + JSON.stringify(filter));
+            paginationController.pagination({page, res, model: User, filter, promise: User.find(filter).sort(sortQuery)})
+
+        } else {
+            const products = await User.find().sort('name')
+            res.status(201).json(products);
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ message: "An error occured" });
+    }
+}
+
+
+
 
 export const getUserById = async (req, res) => {
     try {
