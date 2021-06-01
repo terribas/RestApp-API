@@ -1,12 +1,29 @@
 import Order from '../models/Order';
 import Statistics from '../models/Statistics';
 
+import * as paginationController from '../controllers/pagination.controller';
 
 export const getOrders = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const page = req.body.page;
+        if (page) {
+            const {sort} = req.body;
+            const sortQuery = {}
 
-        res.status(201).json(orders);
+            if (sort?.field && sort?.order) {sortQuery[sort.field] = sort.order}
+
+            paginationController.pagination({
+                page,
+                res,
+                model: Order,
+                promise: Order.find().sort(sortQuery).populate('user').populate('table')
+            });
+
+        } else {
+            const products = await Order.find().sort('date')
+            res.status(201).json(products);
+        }
+
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: "An error occured" });
@@ -139,5 +156,17 @@ export const toggleKitchenOrder = async (req, res) => {
         res.status(200).json(updatedOrder);
     } catch (error) {
         res.status(400).json({message: "An error occured"})
+    }
+}
+
+
+
+
+//Returns the current logged in user details. Requires checkJwt.verifyToken middleware to work
+export const getMyOrders = async (req, res) => {
+    try {
+        if (!req.body.user) {return res.status(400).json({message: 'You must be authenticated to perform this action'})}
+    } catch (error) {
+
     }
 }

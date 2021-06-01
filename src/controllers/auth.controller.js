@@ -7,14 +7,20 @@ import config from '../config';
 export const signUp = async (req, res) => {
     try {
         console.log("Body: " + req.body)
-        const { name, lastName, email, password, role } = req.body;
+        const { name, lastName, email, password, role, referral } = req.body;
+
+        if (!email || !password) return res.status(400).json({ message: 'You must provide an email and a password'});
+
+        var lowRole;
+        if (role) {lowRole = role.toLowerCase();}
 
         const newUser = new User({
             name,
             lastName,
-            email,
+            email: email.toLowerCase(),
             password: await User.encryptPassword(password),
-            role
+            role: lowRole,
+            referral
         });
 
         await newUser.save();
@@ -25,14 +31,14 @@ export const signUp = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(400).json(error)
+        res.status(400).json({message: "An error occured"})
     }
 }
 
 /* Login user */
 //Route (post): api/auth/login
 export const login = async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email.toLowerCase() });
 
     if (!user) return res.status(400).json({ message: "Invalid login or password" });
     
