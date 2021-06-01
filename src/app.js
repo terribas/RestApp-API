@@ -13,6 +13,7 @@ import categoryRoutes from './routes/categories.routes';
 import userRoutes from './routes/user.routes';
 import orderRoutes from './routes/order.routes';
 import paymentRoutes from './routes/payment.routes';
+import statisticsRoutes from './routes/statistics.routes';
 
 import imageRoutes from './routes/image.routes';
 
@@ -37,6 +38,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/upload', imageRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/payment/', paymentRoutes);
+app.use('/api/statistics', statisticsRoutes);
 
 
 // Static files

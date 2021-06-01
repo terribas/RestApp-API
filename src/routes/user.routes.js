@@ -8,8 +8,10 @@ import * as checkAuth from '../middlewares/authJwt';
 // Para controlar que la peticion se haga solamente con usuario tipo camarero autenticado, es:
 //router.get('/', checkAuth.verifyWaiterToken, userController.getusers);
 
-router.get('/', userController.getUsers);
+//router.get('/', userController.getUsers);
 router.get('/:userId', userController.getUserById);
+
+router.post('/', userController.getUsers)
 router.post('/myUser', checkAuth.verifyToken, userController.getMyUser);
 
 router.put('/:userId', userController.updateUserById);
