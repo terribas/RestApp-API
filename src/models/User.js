@@ -21,6 +21,10 @@ const userSchema = new Schema({
         type: String,
         default: "client"
     },
+    referral: {
+        type: String,
+        default: 'Not specified'
+    },
     stripe_key: {
         type: String,
         default: ""

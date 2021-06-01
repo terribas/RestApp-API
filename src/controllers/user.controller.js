@@ -97,7 +97,12 @@ export const getUserById = async (req, res) => {
 
 export const updateUserById = async (req, res) => {
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.userId, req.body, {
+        const newParams = req.body;
+        if (req.body.password?.length > 0) {
+            newParams.password = await User.encryptPassword(req.body.password)
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(req.params.userId, newParams, {
             new: true //edit and return objet
         });
         res.status(204).json(updatedUser);
