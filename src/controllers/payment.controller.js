@@ -1,13 +1,16 @@
 import { json } from 'body-parser';
 import userController from '../controllers/user.controller'
 import User from '../models/User';
+import config from '../config';
+
 
 export const createPaymentMethod = async (req, res) => {
-    const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
+    const stripe = require('stripe')(config.STRIPE_KEY); // https://stripe.com/docs/keys#obtain-api-keys
     console.log("createPaymentMethod")
     
   try {
     const card = req.body.card
+    console.log('TARJETA RECIBIDA ' + JSON.stringify(card))
     /*const theCard = {
         number: '4242424242424242',
         //4000002500003155
@@ -38,7 +41,7 @@ export const createPaymentMethod = async (req, res) => {
   
 
 export const pay = async (request, response) => {
-  const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
+  const stripe = require('stripe')(config.STRIPE_KEY); // https://stripe.com/docs/keys#obtain-api-keys
   try {
   // Create the PaymentIntent
     let intent; 
@@ -69,7 +72,7 @@ export const pay = async (request, response) => {
 };
 
 export const saveCard_v2 = async (request, response) => {  
-  const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
+  const stripe = require('stripe')(config.STRIPE_KEY); // https://stripe.com/docs/keys#obtain-api-keys
   try{    
     const id = request.body.user._id
     const user = await User.findById(id);
@@ -119,7 +122,7 @@ export const saveCard_v2 = async (request, response) => {
 }
 
 export const getCard = async (request, response) => {  
-  const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS"); // https://stripe.com/docs/keys#obtain-api-keys
+  const stripe = require("stripe")(config.STRIPE_KEY); // https://stripe.com/docs/keys#obtain-api-keys
   try{
     
     const id = request.body.user._id
@@ -158,7 +161,7 @@ export const getCard = async (request, response) => {
 }
 
 export const payWithCard = async (request, response) =>{
-  const stripe = require("stripe")("sk_test_51IsANIBMsQSe7vj6zREYNfQhYeQhjs4gBWF6cYWgwIHBedw7wqHAkKClnnnr8acecOsX5hrLShtUx62Lbe6NQa0700ll925vnS");
+  const stripe = require("stripe")(config.STRIPE_KEY);
   try{
     console.log("pay with card")
     const id = request.body.user._id

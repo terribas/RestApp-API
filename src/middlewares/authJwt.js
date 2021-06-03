@@ -13,7 +13,7 @@ export const verifyToken = async (req, res, next) => {
 
         if (!user) return res.status(403).json({message: 'Authentiation failed'});
 
-        console.log('user middleware ' + user);
+        //console.log('user middleware ' + user);
         req.body.user = user;
         next();
     } catch (error) {

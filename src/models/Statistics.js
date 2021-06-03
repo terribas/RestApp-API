@@ -17,6 +17,7 @@ const staticsSchema = new Schema({
         default: Date.now
     }
 }, {
+    autoIndexId: false,
     versionKey: false,      // Creation date not saved
     toJSON: {
         getters: true       // Float output handling and id fields
@@ -30,4 +31,4 @@ function getFloat(value) {
     return value;
 }
 
-export default model('Statics', staticsSchema);
+export default model('Statistics', staticsSchema);

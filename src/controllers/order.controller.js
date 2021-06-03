@@ -1,5 +1,6 @@
 import Order from '../models/Order';
 import Statistics from '../models/Statistics';
+import config from '../config';
 
 import * as paginationController from '../controllers/pagination.controller';
 
@@ -41,14 +42,24 @@ export const getOrderById = async (req, res) => {
 }
 
 
+//Creates a new order. Requires checkJwt.verifyToken middleware to work (get user)
 export const createOrder = async (req, res) => {
     try {
+        const user = req.body.user._id;
+
+        if(!user) {return res.status(400).json({ message: 'You must be authenticated to perform this action'} )};
+
         const newOrder = new Order(req.body);
 
         console.log('new order: ' + newOrder);
 
         //insert order in statistic model 
-        const statistics = await Statistics.insertMany(req.body.products)
+        const products = req.body.products.map(product => {
+            if (product._id) delete product._id;
+            return product;
+        });
+        
+        const statistics = await Statistics.insertMany(req.body.products);
 
         const orderSaved = await newOrder.save();
 
@@ -85,7 +96,10 @@ export const deleteOrderById = async (req, res) => {
 /* get kitchen pending orders */
 export const getBarPendingOrders = async (req, res) => {
     try {
-        const barPendingOrders = await Order.find({ bar_delivered: false }).sort({date: "asc"})
+        const barPendingOrders = await Order.find({
+            bar_delivered: false,
+            date: {$gt: Date.now() - 86400000}
+        }).sort({date: "asc"})
         console.log(barPendingOrders)
         res.status(201).json(barPendingOrders);
     } catch (error) {
@@ -96,7 +110,10 @@ export const getBarPendingOrders = async (req, res) => {
 /* get kitchen pending orders */
 export const getKitchenPendingOrders = async (req, res) => {
     try {
-        const kitchenPendingOrders = await Order.find({ kitchen_delivered: false }).sort({date: "asc"})
+        const kitchenPendingOrders = await Order.find({
+            kitchen_delivered: false,
+            date: {$gt: Date.now() - 86400000}
+        }).sort({date: "asc"})
         console.log(kitchenPendingOrders)
         res.status(201).json(kitchenPendingOrders);
         return
@@ -108,7 +125,10 @@ export const getKitchenPendingOrders = async (req, res) => {
 /* get kitchen delivered orders */
 export const getBarDeliveredOrders = async (req, res) => {
     try {
-        const barDeliveredOrders = await Order.find({ bar_delivered: true }).sort({date: "asc"})
+        const barDeliveredOrders = await Order.find({
+            bar_delivered: true,
+            date: {$gt: Date.now() - 86400000}
+        }).sort({date: "asc"})
         console.log(barDeliveredOrders)
         res.status(201).json(barDeliveredOrders);
     } catch (error) {
@@ -119,7 +139,10 @@ export const getBarDeliveredOrders = async (req, res) => {
 /* get kitchen delivered orders */
 export const getKitchenDeliveredOrders = async (req, res) => {
     try {
-        const kitchenDeliveredOrders = await Order.find({ kitchen_delivered: true }).sort({date: "asc"})
+        const kitchenDeliveredOrders = await Order.find({
+            kitchen_delivered: true,
+            date: {$gt: Date.now() - 86400000}
+        }).sort({date: "asc"})
         console.log(kitchenDeliveredOrders)
         res.status(201).json(kitchenDeliveredOrders);
     } catch (error) {
@@ -166,7 +189,28 @@ export const toggleKitchenOrder = async (req, res) => {
 export const getMyOrders = async (req, res) => {
     try {
         if (!req.body.user) {return res.status(400).json({message: 'You must be authenticated to perform this action'})}
-    } catch (error) {
 
+        const orders = await Order.find({user: req.body.user._id}).sort({date: 'desc'});
+
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(400).json({ message: "An error occured" });
+    }
+}
+
+
+
+export const getMyLastOrder = async (req, res) => {
+    try {
+        if (!req.body.user) {return res.status(400).json({message: 'You must be authenticated to perform this action'})}
+        const order = await Order.findOne({user: req.body.user._id})
+            .sort({date: 'desc'})
+            .limit(1)
+            .populate('user')
+            .populate('table');
+
+        res.status(200).json(order);
+    } catch (error) {
+        res.status(400).json({message: "An error occured"});
     }
 }
