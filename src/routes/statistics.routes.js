@@ -5,16 +5,19 @@ import * as statisticController from '../controllers/statistics.controller';
 
 import * as checkAuth from '../middlewares/authJwt';
 
+router.get('/', statisticController.getStatistics);
 
-router.get('/orders', statisticController.getOrdersByMonth);
-router.get('/incomes', statisticController.getIncomesByMonth);
-router.get('/topProducts', statisticController.getTopProducts);
-router.get('/referrals', statisticController.getTopReferrals);
+/*
+router.get('/orders', statisticController.ordersByMonth);
+router.get('/incomes', statisticController.incomesByMonth);
+router.get('/topProducts', statisticController.topProducts);
+router.get('/referrals', statisticController.referrals);
 
-router.get('/totalOrders', statisticController.getTotalOrders);
-router.get('/totalIncomes', statisticController.getTotalIncomes);
-router.get('/totalUsers', statisticController.getTotalUsers);
-router.get('/totalStaff', statisticController.getTotalStaff);
+router.get('/totalOrders', statisticController.totalOrders);
+router.get('/totalIncomes', statisticController.totalIncomes);
+router.get('/totalUsers', statisticController.totalUsers);
+router.get('/totalStaff', statisticController.totalStaff);
+*/
 
 
 export default router;
