@@ -37,29 +37,57 @@ export const getStatistics = async (req, res) => {
 
 async function getLastMonthsOrders() {
     try {
-        return await Order.aggregate([{
-            $group : {
-                _id : { $dateToString: { format: "%m/%Y", date: "$date" } },
-                count: { $sum: 1 }
-            }
-        }]);
+        const result = await Order.aggregate([
+            {
+                $group : {
+                    _id : { $dateToString: { format: "%m/%Y", date: "$date" } },
+                    count: { $sum: 1 }
+                }
+            },
+        ]);
+
+        
+        const sorted = result.sort((a, b) => {
+            var piecesA = a._id.split('/');
+            var piecesB = b._id.split('/');
+            var monthA = parseInt(piecesA[0]); var yearA = parseInt(piecesA[1]);
+            var monthB = parseInt(piecesB[0]); var yearB = parseInt(piecesB[1]);
+
+            if (yearA !== yearB) return yearB - yearA;
+            else return monthB - monthA;
+        });
+
+        return sorted.slice(0, 5).reverse();
     } catch (error) {
+        console.log(error);
         return null;
     }
 }
 
 async function getLastMonthsIncomes() {
     try {
-        const montlyIncomes = await Order.aggregate([{
+        const monthlyIncomes = await Order.aggregate([{
             $group : {
                 _id : { $dateToString: { format: "%m/%Y", date: "$date" } },
                 total: { $sum: '$total' }
             }
         }]);
 
-        montlyIncomes.forEach((month) => {month.total = parseFloat(month.total)});
-        return montlyIncomes;
+        monthlyIncomes.forEach((month) => {month.total = parseFloat(month.total)});
+
+        const sorted = monthlyIncomes.sort((a, b) => {
+            var piecesA = a._id.split('/');
+            var piecesB = b._id.split('/');
+            var monthA = parseInt(piecesA[0]); var yearA = parseInt(piecesA[1]);
+            var monthB = parseInt(piecesB[0]); var yearB = parseInt(piecesB[1]);
+
+            if (yearA !== yearB) return yearB - yearA;
+            else return monthB - monthA;
+        });
+
+        return sorted.slice(0, 5).reverse();
     } catch (error) {
+        console.log(error);
         return null;
     }
 }

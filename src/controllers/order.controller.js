@@ -100,6 +100,8 @@ export const getBarPendingOrders = async (req, res) => {
             bar_delivered: false,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        .populate('table')
+        .populate('user');
         for (let i = 0; i < barPendingOrders.length; i++) {
             let products = barPendingOrders[i].products
             let productsAux = []
@@ -124,6 +126,8 @@ export const getKitchenPendingOrders = async (req, res) => {
             kitchen_delivered: false,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        .populate('table')
+        .populate('user');
         for (let i = 0; i < kitchenPendingOrders.length; i++) {
             let products = kitchenPendingOrders[i].products
             let productsAux = []
@@ -149,6 +153,8 @@ export const getBarDeliveredOrders = async (req, res) => {
             bar_delivered: true,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        .populate('table')
+        .populate('user');
         for (let i = 0; i < barDeliveredOrders.length; i++) {
             let products = barDeliveredOrders[i].products
             let productsAux = []
@@ -173,6 +179,8 @@ export const getKitchenDeliveredOrders = async (req, res) => {
             kitchen_delivered: true,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        .populate('table')
+        .populate('user');
         for (let i = 0; i < kitchenDeliveredOrders.length; i++) {
             let products = kitchenDeliveredOrders[i].products
             let productsAux = []
@@ -230,7 +238,7 @@ export const getMyOrders = async (req, res) => {
     try {
         if (!req.body.user) {return res.status(400).json({message: 'You must be authenticated to perform this action'})}
 
-        const orders = await Order.find({user: req.body.user._id}).sort({date: 'desc'});
+        const orders = await Order.find({user: req.body.user._id}).sort({date: 'desc'}).populate('table');
 
         res.status(200).json(orders);
     } catch (error) {
