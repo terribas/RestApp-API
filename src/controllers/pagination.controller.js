@@ -1,7 +1,8 @@
+import config from '../config';
 
 export const pagination = async (params) => {
     const {page, res, model, filter, promise} = params;
-    let perPage = 2;
+    let perPage = config.ITEMS_PER_PAGE;
     let count = await model.countDocuments(filter ?? {})
     console.log("count: ", count)
     const obj = await promise

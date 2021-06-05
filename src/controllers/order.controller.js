@@ -86,8 +86,11 @@ export const updateOrderById = async (req, res) => {
 export const deleteOrderById = async (req, res) => {
     try {
         const deletedOrder = await Order.findByIdAndDelete(req.params.orderId);
-        console.log(deletedOrder);
-        res.status(204).json();
+
+        const count = await Order.countDocuments();
+        const pages = Math.ceil(count / config.ITEMS_PER_PAGE);
+        console.log(pages);
+        res.status(200).json({pages});
     } catch (error) {
         res.status(400).json({ message: "An error occured" });
     }

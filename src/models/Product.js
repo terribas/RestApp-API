@@ -13,7 +13,7 @@ const productSchema = new Schema({
     },
     category: {
         type: String,
-        default: 'Sin categoría'
+        default: 'No category'
     },
     zone: {
         type: Number,

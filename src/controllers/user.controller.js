@@ -2,7 +2,7 @@
 
 import User from '../models/User';
 import * as paginationController from '../controllers/pagination.controller';
-
+import config from '../config';
 /*
 export const getUsers = async (req, res) => {
     try {
@@ -116,13 +116,63 @@ export const updateUserById = async (req, res) => {
 
 export const deleteUserById = async (req, res) => {
     try {
+        const {where, contains} = req.body;
+
+        const filter = {
+            $or: [
+                {name: {$regex: new RegExp(contains, 'i')}},
+                {lastName: {$regex: new RegExp(contains, 'i')}},
+                {email: {$regex: new RegExp(contains, 'i')}},
+            ],
+            role: 'client'
+        }
+
+        if (where?.field && where?.value) {filter[where.field] = where.value}
+
+ 
         const deletedUser = await User.findByIdAndDelete(req.params.userId);
-        console.log(deletedUser);
-        res.status(204).json();
+
+        const count = await User.countDocuments(filter);
+        const pages = Math.ceil(count / config.ITEMS_PER_PAGE);
+
+        console.log(pages);
+
+        res.status(200).json({pages});
     } catch (error) {
         res.status(400).json({message: "An error occured"});
     } 
 }
+
+
+export const deleteStaffById = async (req, res) => {
+    try {
+        const {where, contains} = req.body;
+
+        const filter = {
+            $or: [
+                {name: {$regex: new RegExp(contains, 'i')}},
+                {lastName: {$regex: new RegExp(contains, 'i')}},
+                {email: {$regex: new RegExp(contains, 'i')}},
+            ],
+            role: {$ne: 'client'}
+        }
+
+        if (where?.field && where?.value) {filter[where.field] = where.value}
+
+ 
+        const deletedUser = await User.findByIdAndDelete(req.params.userId);
+
+        const count = await User.countDocuments(filter);
+        const pages = Math.ceil(count / config.ITEMS_PER_PAGE);
+
+        console.log(pages);
+
+        res.status(200).json({pages});
+    } catch (error) {
+        res.status(400).json({message: "An error occured"});
+    } 
+}
+
 
 //Returns the current logged in user details. Requires checkJwt.verifyToken middleware to work
 export const getMyUser = async (req, res) => {

@@ -18,7 +18,8 @@ router.post('/myUser', checkAuth.verifyToken, userController.getMyUser);
 router.put('/:userId', userController.updateUserById);
 router.put('/', checkAuth.verifyToken, userController.updateMyUser);
 
-router.delete('/:userId', userController.deleteUserById);
+router.delete('/deleteUser/:userId', userController.deleteUserById);
+router.delete('/deleteStaff/:userId', userController.deleteStaffById);
 
 
 

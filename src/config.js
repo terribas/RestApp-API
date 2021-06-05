@@ -6,4 +6,7 @@ export default {
 
     //TERRI
     STRIPE_KEY: 'sk_test_51Ikby7GH7vH4UBAIofIKvq0BM3Onbv3iW5LrobKLNYdSSpYIuskDudQmWBJYQN2lqj3qEyYzkqoYJTTecgWOAvae00cSDxwIVA',
+
+
+    ITEMS_PER_PAGE: 2,
 }

@@ -9,7 +9,7 @@ const staticsSchema = new Schema({
         type: Types.Decimal128,
         get: getFloat
     },
-    category: Object,
+    category: String,
     zone: Number,
     amount: Number,
     date: {
