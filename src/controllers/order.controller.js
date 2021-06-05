@@ -100,6 +100,16 @@ export const getBarPendingOrders = async (req, res) => {
             bar_delivered: false,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        for (let i = 0; i < barPendingOrders.length; i++) {
+            let products = barPendingOrders[i].products
+            let productsAux = []
+            for (let j = 0; j < products.length; j++) {
+                if(products[j].zone == 1) {
+                    productsAux.push(products[j])
+                }
+            } 
+            barPendingOrders[i].products = productsAux;
+        }
         console.log(barPendingOrders)
         res.status(201).json(barPendingOrders);
     } catch (error) {
@@ -114,6 +124,16 @@ export const getKitchenPendingOrders = async (req, res) => {
             kitchen_delivered: false,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        for (let i = 0; i < barPendingOrders.length; i++) {
+            let products = barPendingOrders[i].products
+            let productsAux = []
+            for (let j = 0; j < products.length; j++) {
+                if(products[j].zone == 2) {
+                    productsAux.push(products[j])
+                }
+            } 
+            barPendingOrders[i].products = productsAux;
+        }
         console.log(kitchenPendingOrders)
         res.status(201).json(kitchenPendingOrders);
         return
@@ -129,6 +149,16 @@ export const getBarDeliveredOrders = async (req, res) => {
             bar_delivered: true,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        for (let i = 0; i < barPendingOrders.length; i++) {
+            let products = barPendingOrders[i].products
+            let productsAux = []
+            for (let j = 0; j < products.length; j++) {
+                if(products[j].zone == 1) {
+                    productsAux.push(products[j])
+                }
+            } 
+            barPendingOrders[i].products = productsAux;
+        }
         console.log(barDeliveredOrders)
         res.status(201).json(barDeliveredOrders);
     } catch (error) {
@@ -143,6 +173,16 @@ export const getKitchenDeliveredOrders = async (req, res) => {
             kitchen_delivered: true,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
+        for (let i = 0; i < barPendingOrders.length; i++) {
+            let products = barPendingOrders[i].products
+            let productsAux = []
+            for (let j = 0; j < products.length; j++) {
+                if(products[j].zone == 2) {
+                    productsAux.push(products[j])
+                }
+            } 
+            barPendingOrders[i].products = productsAux;
+        }
         console.log(kitchenDeliveredOrders)
         res.status(201).json(kitchenDeliveredOrders);
     } catch (error) {
