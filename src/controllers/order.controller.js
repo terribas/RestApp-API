@@ -124,15 +124,15 @@ export const getKitchenPendingOrders = async (req, res) => {
             kitchen_delivered: false,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
-        for (let i = 0; i < barPendingOrders.length; i++) {
-            let products = barPendingOrders[i].products
+        for (let i = 0; i < kitchenPendingOrders.length; i++) {
+            let products = kitchenPendingOrders[i].products
             let productsAux = []
             for (let j = 0; j < products.length; j++) {
                 if(products[j].zone == 2) {
                     productsAux.push(products[j])
                 }
             } 
-            barPendingOrders[i].products = productsAux;
+            kitchenPendingOrders[i].products = productsAux;
         }
         console.log(kitchenPendingOrders)
         res.status(201).json(kitchenPendingOrders);
@@ -149,15 +149,15 @@ export const getBarDeliveredOrders = async (req, res) => {
             bar_delivered: true,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
-        for (let i = 0; i < barPendingOrders.length; i++) {
-            let products = barPendingOrders[i].products
+        for (let i = 0; i < barDeliveredOrders.length; i++) {
+            let products = barDeliveredOrders[i].products
             let productsAux = []
             for (let j = 0; j < products.length; j++) {
                 if(products[j].zone == 1) {
                     productsAux.push(products[j])
                 }
             } 
-            barPendingOrders[i].products = productsAux;
+            barDeliveredOrders[i].products = productsAux;
         }
         console.log(barDeliveredOrders)
         res.status(201).json(barDeliveredOrders);
@@ -173,15 +173,15 @@ export const getKitchenDeliveredOrders = async (req, res) => {
             kitchen_delivered: true,
             date: {$gt: Date.now() - 86400000}
         }).sort({date: "asc"})
-        for (let i = 0; i < barPendingOrders.length; i++) {
-            let products = barPendingOrders[i].products
+        for (let i = 0; i < kitchenDeliveredOrders.length; i++) {
+            let products = kitchenDeliveredOrders[i].products
             let productsAux = []
             for (let j = 0; j < products.length; j++) {
                 if(products[j].zone == 2) {
                     productsAux.push(products[j])
                 }
             } 
-            barPendingOrders[i].products = productsAux;
+            kitchenDeliveredOrders[i].products = productsAux;
         }
         console.log(kitchenDeliveredOrders)
         res.status(201).json(kitchenDeliveredOrders);
