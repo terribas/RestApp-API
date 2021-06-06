@@ -118,6 +118,7 @@ export const deleteUserById = async (req, res) => {
     try {
         const {where, contains} = req.body;
 
+        
         const filter = {
             $or: [
                 {name: {$regex: new RegExp(contains, 'i')}},

@@ -4,6 +4,9 @@ import config from '../config';
 
 /* Register user */
 //Route (post): api/auth/singup
+
+const emailRegex = /\S+@\S+\.\S+/
+
 export const signUp = async (req, res) => {
     try {
         console.log("Body: " + req.body)
@@ -11,6 +14,8 @@ export const signUp = async (req, res) => {
 
         if (!email || !password) return res.status(400).json({ message: 'You must provide an email and a password'});
 
+        if (!emailRegex.test(email)) return res.status(400).json({ message: 'You must provide a valid email'})
+        
         var lowRole;
         if (role) {lowRole = role.toLowerCase();}
 
@@ -27,7 +32,7 @@ export const signUp = async (req, res) => {
 
         console.log(newUser);
 
-        res.status(201).json('Signed up successfully');
+        res.status(201).json({message: 'Signed up successfully'});
 
     } catch (error) {
         console.log(error)
@@ -47,7 +52,7 @@ export const login = async (req, res) => {
     if (!rightPassword) return res.status(400).json({ message: "Invalid login or password" });
 
     const token = jwt.sign({ id: user._id }, config.SECRET, {
-        expiresIn: 86400
+        expiresIn: 864000
     });
 
     res.json({ token, role: user.role });

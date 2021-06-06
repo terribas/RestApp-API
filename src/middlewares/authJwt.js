@@ -23,7 +23,7 @@ export const verifyToken = async (req, res, next) => {
 
 
 
-export const verifyWaiterToken = async (req, res, next) => {
+export const verifyStaffToken = async (req, res, next) => {
     try {
         const token = req.headers['x-access-token'];
         if (!token) return res.status(403).json({message: 'No token provided'});
@@ -32,11 +32,18 @@ export const verifyWaiterToken = async (req, res, next) => {
         const user = await User.findById(decoded.id, {password: 0});
 
         if (!user) return res.status(403).json({message: 'Authentication failed'});
-        if (user.role !== 'waiter') return res.status(401).json({message: 'Unauthorized'}); 
+
+        if (user.role !== 'waiter' && 
+            user.role !== 'bar' &&
+            user.role !== 'kitchen' &&
+            user.role !== 'admin'
+            )
+                return res.status(401).json({message: 'Unauthorized'}); 
 
         req.body.user = user;
         next();
     } catch (error) {
+        console.log(error);
         return res.status(401).json({message: 'Authentication failed'});
     }
 }
@@ -60,40 +67,3 @@ export const verifyAdminToken = async (req, res, next) => {
     }
 }
 
-
-export const verifyKitchenToken = async (req, res, next) => {
-    try {
-        const token = req.headers['x-access-token'];
-        if (!token) return res.status(403).json({message: 'No token provided'});
-
-        const decoded = jwt.verify(token, config.SECRET);
-        const user = await User.findById(decoded.id, {password: 0});
-
-        if (!user) return res.status(403).json({message: 'Authentication failed'});
-        if (user.role !== 'kitchen') return res.status(401).json({message: 'Unauthorized'}); 
-
-        req.body.user = user;
-        next();
-    } catch (error) {
-        return res.status(401).json({message: 'Authentication failed'});
-    }
-}
-
-
-export const verifyBarToken = async (req, res, next) => {
-    try {
-        const token = req.headers['x-access-token'];
-        if (!token) return res.status(403).json({message: 'No token provided'});
-
-        const decoded = jwt.verify(token, config.SECRET);
-        const user = await User.findById(decoded.id, {password: 0});
-
-        if (!user) return res.status(403).json({message: 'Authentication failed'});
-        if (user.role !== 'bar') return res.status(401).json({message: 'Unauthorized'}); 
-
-        req.body.user = user;
-        next();
-    } catch (error) {
-        return res.status(401).json({message: 'Authentication failed'});
-    }
-}

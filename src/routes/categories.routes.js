@@ -8,10 +8,10 @@ import * as checkAuth from '../middlewares/authJwt';
 router.get('/', categoryController.getCategories);
 router.get('/:categoryId', categoryController.getCategoryById);
 
-router.post('/', categoryController.createCategory);
-router.put('/:categoryId', categoryController.updateCategoryById);
+router.post('/', checkAuth.verifyAdminToken, categoryController.createCategory);
+router.put('/:categoryId', checkAuth.verifyAdminToken, categoryController.updateCategoryById);
 
-router.delete('/:categoryId', categoryController.deleteCategoryById);
+router.delete('/:categoryId', checkAuth.verifyAdminToken, categoryController.deleteCategoryById);
 
 
 

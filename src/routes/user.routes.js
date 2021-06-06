@@ -9,17 +9,17 @@ import * as checkAuth from '../middlewares/authJwt';
 //router.get('/', checkAuth.verifyWaiterToken, userController.getusers);
 
 //router.get('/', userController.getUsers);
-router.get('/:userId', userController.getUserById);
+router.get('/:userId', checkAuth.verifyStaffToken, userController.getUserById);
 
-router.post('/', userController.getUsers)
-router.post('/staff', userController.getStaff)
+router.post('/', checkAuth.verifyStaffToken, userController.getUsers)
+router.post('/staff', checkAuth.verifyStaffToken, userController.getStaff)
 router.post('/myUser', checkAuth.verifyToken, userController.getMyUser);
 
-router.put('/:userId', userController.updateUserById);
 router.put('/', checkAuth.verifyToken, userController.updateMyUser);
+router.put('/:userId', checkAuth.verifyAdminToken, userController.updateUserById);
 
-router.delete('/deleteUser/:userId', userController.deleteUserById);
-router.delete('/deleteStaff/:userId', userController.deleteStaffById);
+router.delete('/deleteUser/:userId', checkAuth.verifyAdminToken, userController.deleteUserById);
+router.delete('/deleteStaff/:userId', checkAuth.verifyAdminToken, userController.deleteStaffById);
 
 
 

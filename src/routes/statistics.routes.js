@@ -5,7 +5,7 @@ import * as statisticController from '../controllers/statistics.controller';
 
 import * as checkAuth from '../middlewares/authJwt';
 
-router.get('/', statisticController.getStatistics);
+router.get('/', checkAuth.verifyAdminToken, statisticController.getStatistics);
 
 /*
 router.get('/orders', statisticController.ordersByMonth);

@@ -8,10 +8,10 @@ import * as checkAuth from '../middlewares/authJwt';
 router.post('/', productController.getProducts);
 router.get('/:productId', productController.getProductById);
 
-router.post('/create', productController.createProduct);
-router.put('/:productId', productController.updateProductById);
+router.post('/create', checkAuth.verifyAdminToken, productController.createProduct);
+router.put('/:productId', checkAuth.verifyAdminToken, productController.updateProductById);
 
-router.delete('/:productId', productController.deleteProductById);
+router.delete('/:productId', checkAuth.verifyAdminToken, productController.deleteProductById);
 
 
 
