@@ -155,7 +155,7 @@ export const getBarDeliveredOrders = async (req, res) => {
         const barDeliveredOrders = await Order.find({
             bar_delivered: true,
             date: {$gt: Date.now() - 86400000}
-        }).sort({date: "asc"})
+        }).sort({date: "desc"})
         .populate('table')
         .populate('user');
         for (let i = 0; i < barDeliveredOrders.length; i++) {
@@ -181,7 +181,7 @@ export const getKitchenDeliveredOrders = async (req, res) => {
         const kitchenDeliveredOrders = await Order.find({
             kitchen_delivered: true,
             date: {$gt: Date.now() - 86400000}
-        }).sort({date: "asc"})
+        }).sort({date: "desc"})
         .populate('table')
         .populate('user');
         for (let i = 0; i < kitchenDeliveredOrders.length; i++) {
