@@ -36,7 +36,7 @@ function getFloat(value) {
 }
 
 function getImagePath(value) {
-    return 'http://localhost:3000/public/uploads/' + value;
+    return 'https://restapp.duckdns.org:5000/public/uploads/' + value;
     return value;
 }
 
