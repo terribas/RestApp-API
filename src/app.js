@@ -45,16 +45,3 @@ app.use('/api/statistics', statisticsRoutes);
 app.use('/public', express.static( path.join(__dirname, '../public')));
 
 export default app;
-
-
-
-/* todo
-
-- validación formularios (email es válido?)
-- pedidos favoritos
-- contador minutos pedidos hasta que sean despachados (solo mostrados en ordenes por hacer) Hacer en cliente con JS
-- quitar exec (await)
-- Filtros de búsqueda y búsqueda
-
-*/
-
